@@ -1,3 +1,7 @@
+#Output files
+*.aout
+*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
