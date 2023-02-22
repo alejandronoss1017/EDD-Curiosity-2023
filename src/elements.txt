@@ -1,0 +1,2 @@
+oro 2 cm 10 23
+plata 5 cm 12 30
