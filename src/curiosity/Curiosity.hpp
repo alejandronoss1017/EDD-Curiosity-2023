@@ -8,28 +8,26 @@
 
 #include "../commonFunctions/commonFunctions.hpp"
 #include "../element/Element.hpp"
+#include "../analysis/Analysis.hpp"
 
 using namespace std;
 
 class Curiosity
 {
 private:
+    // TODO: Implementar queue segun el correo del profesor
     list<string> commands;
     list<Element> elements;
-    // TODO: Crear lista de analisis
+    list<Analysis> analysisList;
 
 public:
     Curiosity(/* args */);
     ~Curiosity();
 
-    /* //TODO: Cambiar la lectura del archivo a la shell y hacer validacion
-        de cada comando en el archivo
-    */
-    void uploadCommands(string filename);
     void addCommand(string command);
 
-    void uploadElements(string filename);
     void addElement(Element element);
+    void addAnalysis(Analysis analysis);
 
     /*  Getters and Setters */
     list<string> GetCommands() const;
