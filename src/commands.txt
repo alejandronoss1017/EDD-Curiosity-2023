@@ -1,2 +1,4 @@
-Hola mundo!
-adios mundo!
+avanzar 20 m
+avanzar 5 degrees
+avanzar 10 m
+avanzar 15 degrees
