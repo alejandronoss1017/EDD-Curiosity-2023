@@ -284,7 +284,7 @@ void Shell::evaluateCommand()
         {
             if (checkInt(commands[1]) && checkInt(commands[3]) && checkInt(commands[4]))
             {
-                if (commands[2] == "cm" || commands[2] == "m")
+                if (isMeasureUnit(commands.at(2)))
                 {
                     cout << "roqueando" << endl;
                 }
@@ -306,7 +306,7 @@ void Shell::evaluateCommand()
         {
             if (checkInt(commands[1]) && checkInt(commands[3]) && checkInt(commands[4]))
             {
-                if (commands[2] == "cm" || commands[2] == "m")
+                if (isMeasureUnit(commands.at(2)))
                 {
                     cout << "cratereando" << endl;
                 }
@@ -328,7 +328,7 @@ void Shell::evaluateCommand()
         {
             if (checkInt(commands[1]) && checkInt(commands[3]) && checkInt(commands[4]))
             {
-                if (commands[2] == "cm" || commands[2] == "m")
+                if (isMeasureUnit(commands.at(2)))
                 {
                     cout << "monticuleando" << endl;
                 }
@@ -350,7 +350,7 @@ void Shell::evaluateCommand()
         {
             if (checkInt(commands[1]) && checkInt(commands[3]) && checkInt(commands[4]))
             {
-                if (commands[2] == "cm" || commands[2] == "m")
+                if (isMeasureUnit(commands.at(2)))
                 {
                     cout << "Duneando" << endl;
                 }
@@ -370,7 +370,7 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 2))
         {
-            robot.uploadCommands(commands.at(1));
+            readCommands(commands.at(1));
         }
         else
         {
@@ -382,7 +382,7 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 2))
         {
-            robot.uploadElements(commands.at(1));
+            readElements(commands.at(1));
         }
         else
         {
@@ -394,11 +394,10 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 4))
         {
-            if (commands[1] == "girar" || commands[1] == "avanzar")
+            if (isMovementType(commands.at(1)))
             {
                 if (checkInt(commands[2]))
                 {
-
                     robot.addCommand(this->command);
                     cout << "El comando de movimiento ha sido agregado exitosamente." << endl;
                     break;
@@ -416,12 +415,17 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 3) || checkArgumentsNumber(commands, 4))
         {
-            if (commands[1] == "fotografiar" || commands[1] == "composicion" || commands[1] == "perforar")
+            if (isAnalysisTypes(commands.at(1)))
             {
-                if (commands[2] == "roca" || commands[2] == "monticulo" || commands[2] == "arena" || commands[2] == "duna")
+                if (isElementTypes(commands.at(2)))
                 {
-                    // TODO: Pasar a la lista de analisis no de comandos
-                    robot.addCommand(this->command);
+                    if (commands.size() == 3)
+                    {
+                        robot.addAnalysis(Analysis(str2AnalysisTypes(commands.at(1)), commands.at(2)));
+                        cout << "El comando de análisis ha sido agregado exitosamente" << endl;
+                        break;
+                    }
+                    robot.addAnalysis(Analysis(str2AnalysisTypes(commands.at(1)), commands.at(2), commands.at(3)));
                     cout << "El comando de análisis ha sido agregado exitosamente" << endl;
                     break;
                 }
@@ -440,11 +444,11 @@ void Shell::evaluateCommand()
         {
             if (checkInt(commands[5]) && checkInt(commands[4]) && checkInt(commands[2]))
             {
-                if (commands[1] == "roca" || commands[1] == "crater" || commands[1] == "monticulo" || commands[1] == "duna")
+                if (isElementTypes(commands.at(1)))
                 {
-                    if (commands[3] == "cm" || commands[3] == "m")
+                    if (isMeasureUnit(commands.at(3)))
                     {
-                        robot.addElement(Element(commands.at(1), stoi(commands.at(2)), commands.at(3), stoi(commands.at(4)), stoi(commands.at(5))));
+                        robot.addElement(Element(str2ElementType(commands.at(1)), stoi(commands.at(2)), commands.at(3), stoi(commands.at(4)), stoi(commands.at(5))));
                         cout << "El elemento ha sido agregado exitosamente." << endl;
                         break;
                     }
@@ -462,47 +466,7 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 3))
         {
-            if (commands.at(1) == "txt")
-            {
-                try
-                {
-                    ofstream file(commands.at(2).append(".txt"));
-                    if (!file.is_open())
-                    {
-                        throw runtime_error("No se pudo abrir el archivo para escribir.");
-                    }
-
-                    file << "-Comandos-" << endl;
-                    for (auto &&command : robot.GetCommands())
-                    {
-                        file << "* " << command << endl;
-                    }
-
-                    file << "-Elementos-" << endl;
-                    for (auto &&element : robot.GetElements())
-                    {
-                        file << "*****************************" << endl;
-                        file << element << endl;
-                    }
-
-                    file.close();
-                }
-                catch (const std::exception &e)
-                {
-                    std::cerr << e.what() << '\n';
-                }
-            }
-            else if (commands.at(1) == "bin")
-            {
-                // TODO: Escritura de un archivo binario
-                /* code */
-            }
-            else
-            {
-                cout << "Tipo de archivo no valido" << endl;
-                break;
-            }
-
+            writeFile(commands.at(1), (commands.at(2)));
             break;
         }
 
@@ -600,4 +564,139 @@ bool Shell::checkArgumentsNumber(vector<string> commands, int args)
         return false;
     }
     return true;
+}
+
+void Shell::writeFile(string fileType, string fileName)
+{
+    if (fileType == "txt")
+    {
+        try
+        {
+
+            ofstream file(fileName.append(".txt"));
+            if (!file.is_open())
+            {
+                throw runtime_error("No se pudo abrir el archivo para escribir.");
+            }
+
+            file << "-Comandos-" << endl;
+            for (auto &&command : robot.GetCommands())
+            {
+                file << "* " << command << endl;
+            }
+
+            file << "-Elementos-" << endl;
+            for (auto &&element : robot.GetElements())
+            {
+                file << "*****************************" << endl;
+                file << element << endl;
+            }
+
+            file.close();
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    else if (fileType == "bin")
+    {
+        // TODO: Escritura de un archivo binario
+        /* code */
+    }
+    else
+    {
+        cout << "Tipo de archivo no valido" << endl;
+    }
+}
+
+/**
+ * @brief Upload commands from a text plain file.
+ * @param filename
+ * @throw runtime_error if the file doesn't exist or is empty.
+ */
+void Shell::readCommands(string fileName)
+{
+    try
+    {
+        fstream file(fileName);
+
+        if (!file)
+        {
+            throw runtime_error("El archivo no existe.");
+        }
+
+        if (!this->robot.GetCommands().empty())
+        {
+            list<string> newList;
+            this->robot.SetCommands(newList);
+        }
+
+        string line;
+        string command;
+        while (getline(file, line))
+        {
+            this->robot.addCommand(line);
+        }
+
+        if (this->robot.GetCommands().size() == 0)
+        {
+            throw runtime_error("El archivo se encuentra vacio.");
+        }
+        else
+        {
+            cout << this->robot.GetCommands().size() << " Comandos cargados exitosamente desde " << fileName << "." << endl;
+        }
+        file.close();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+/**
+ * @brief Upload elements from a text plain file.
+ * @param filename
+ * @throw runtime_error if the file doesn't exist or is empty.
+ */
+void Shell::readElements(string fileName)
+{
+    try
+    {
+        fstream file(fileName);
+
+        if (!file)
+        {
+            throw runtime_error("El archivo no existe.");
+        }
+
+        if (!this->robot.GetElements().empty())
+        {
+            list<Element> newList;
+            this->robot.SetElements(newList);
+        }
+
+        string line;
+        while (getline(file, line))
+        {
+            vector<string> v;
+            v = myStrTok(line);
+            robot.addElement(Element(str2ElementType( v.at(0)), stoi(v.at(1)), v.at(2), stoi(v.at(3)), stoi(v.at(4))));
+        }
+
+        if (robot.GetElements().size() == 0)
+        {
+            throw runtime_error("El archivo se encuentra vacio.");
+        }
+        else
+        {
+            cout << robot.GetElements().size() << " Elementos cargados exitosamente desde " << fileName << "." << endl;
+        }
+        file.close();
+    }
+    catch (const exception &e)
+    {
+        cerr << e.what() << '\n';
+    }
 }
