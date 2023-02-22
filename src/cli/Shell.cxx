@@ -578,16 +578,20 @@ vector<string> Shell::readfile(string filename)
     return lines;
 }
 
+/**
+ * @brief Upload commands from a text plain file.
+ * @param filename
+ * @throw runtime_error if the file doesn't exist or is empty.
+ */
 void Shell::uploadCommands(string filename)
 {
     try
     {
-        // Lectura de archivos utilizando paths
         fstream file(filename);
 
         if (!file)
         {
-            throw runtime_error("No se pudo abrir el archivo.");
+            throw runtime_error("El archivo no existe.");
         }
 
         string line;
@@ -598,7 +602,15 @@ void Shell::uploadCommands(string filename)
             addCommand(line);
         }
 
-        cout << commands.size() << " comandos cargados exitosamente desde " << filename << endl;
+        if (commands.size() == 0)
+        {
+            throw runtime_error("El archivo se encuentra vacio.");
+        }
+        else
+        {
+            cout << commands.size() << " comandos cargados exitosamente desde " << filename << "." << endl;
+        }
+        file.close();
     }
     catch (const exception &e)
     {
