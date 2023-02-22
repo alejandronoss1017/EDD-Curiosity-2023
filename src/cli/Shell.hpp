@@ -4,23 +4,21 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <fstream>
+#include <queue>
 
+#include "../curiosity/Curiosity.hpp"
+#include "../commonFunctions/commonFunctions.hpp"
 
 using namespace std;
-
-constexpr unsigned int str2int(const char *str, int h = 0)
-{
-    return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
-}
 
 class Shell
 {
 private:
+    Curiosity robot;
+    queue<string> commands;
     string command;
 
-    /* data */
 public:
     // Constructor
     Shell(/* args */);
@@ -31,11 +29,11 @@ public:
     void helpMenu(const string command);
     void begin();
     void evaluateCommand();
-    vector<string> myStrTok(const string str);
     bool checkArgumentsNumber(vector<string> commands, int args);
-    bool checkInt(string arg);
-    bool is_valid_float(const string &str);
     vector<string> readfile(string filename);
+
+    void uploadCommands(string filename);
+    void addCommand(string command);
 
     /*  Getters and Setters */
     string getCommand() const;

@@ -370,7 +370,7 @@ void Shell::evaluateCommand()
 
         if (checkArgumentsNumber(commands, 2))
         {
-            vector<string> archivo = readfile(commands[1]);
+            uploadCommands(commands.at(1));
         }
         else
         {
@@ -529,7 +529,7 @@ void Shell::evaluateCommand()
 
         break;
     case str2int("ruta_mas_larga"):
-        
+
         if (checkArgumentsNumber(commands, 1))
         {
             cout << "Verificando la ruta más larga" << endl;
@@ -549,7 +549,6 @@ void Shell::evaluateCommand()
     }
 }
 
-
 bool Shell::checkArgumentsNumber(vector<string> commands, int args)
 {
     if (commands.size() != args)
@@ -557,23 +556,6 @@ bool Shell::checkArgumentsNumber(vector<string> commands, int args)
         return false;
     }
     return true;
-}
-
-bool Shell::checkInt(string arg)
-{
-    try
-    {
-        int num = stoi(arg);
-        return true;
-    }
-    catch (invalid_argument const &e)
-    {
-        return false;
-    }
-    catch (out_of_range const &e)
-    {
-        return false;
-    }
 }
 
 vector<string> Shell::readfile(string filename)
@@ -596,50 +578,35 @@ vector<string> Shell::readfile(string filename)
     return lines;
 }
 
-bool Shell::is_valid_float(const string &str)
+void Shell::uploadCommands(string filename)
 {
-    istringstream iss(str);
-    float f;
-    iss >> noskipws >> f; // Lee el float desde la cadena, respetando los espacios en blanco
+    try
+    {
+        // Lectura de archivos utilizando paths
+        fstream file(filename);
 
-    // Verifica si se han leído correctamente los datos y si no queda más en la cadena
-    return iss.eof() && !iss.fail();
+        if (!file)
+        {
+            throw runtime_error("No se pudo abrir el archivo.");
+        }
+
+        string line;
+        while (getline(file, line))
+        {
+            file >> line;
+
+            addCommand(line);
+        }
+
+        cout << commands.size() << " comandos cargados exitosamente desde " << filename << endl;
+    }
+    catch (const exception &e)
+    {
+        cerr << e.what() << '\n';
+    }
 }
 
-vector<string> Shell::myStrTok(const string str)
+void Shell::addCommand(string command)
 {
-    vector<string> tokens;
-    bool flag = false;
-    string temp;
-    for (int i = 0; i < str.length(); i++)
-    {
-        if (str[i] == ' ' && flag == false)
-        {
-            tokens.push_back(temp);
-            temp.clear();
-        }
-        else if (flag)
-        {
-            temp += str[i];
-            if (str[i] == '\'')
-            {
-                tokens.push_back(temp);
-                temp.clear();
-                flag = false;
-            }
-        }
-        else
-        {
-            temp += str[i];
-            if (str[i] == '\'')
-            {
-                flag = true;
-            }
-        }
-    }
-    if (temp != "")
-    {
-        tokens.push_back(temp);
-    }
-    return tokens;
+    this->commands.push(command);
 }
