@@ -1,6 +1,8 @@
 #if !defined(ELEMENT_hpp)
 #define ELEMENT_hpp
 
+#include "../enums/analysisTypes.hpp"
+
 #include <string>
 
 using namespace std;
@@ -8,14 +10,14 @@ using namespace std;
 class Element
 {
 private:
-    string componentType;
+    elementTypes componentType;
     int size;
     string measureUnit;
     int coordinateX;
     int coordinateY;
 
 public:
-    Element(string componentType, int size, string measureUnit, int coordinateX, int coordinateY);
+    Element(elementTypes componentType, int size, string measureUnit, int coordinateX, int coordinateY);
     ~Element();
 
     /* Operations overload */

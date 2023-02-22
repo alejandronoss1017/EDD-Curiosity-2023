@@ -1,6 +1,6 @@
 #include "Element.hpp"
 
-Element::Element(string componentType, int size, string measureUnit, int coordinateX, int coordinateY)
+Element::Element(elementTypes componentType, int size, string measureUnit, int coordinateX, int coordinateY)
 {
     this->componentType = componentType;
     this->size = size;
