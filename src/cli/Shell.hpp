@@ -9,12 +9,15 @@
 
 #include "../curiosity/Curiosity.hpp"
 #include "../commonFunctions/commonFunctions.hpp"
+#include "../enums/analysisTypes.hpp"
+#include "../enums/measureTypes.hpp"
 
 using namespace std;
 
 class Shell
 {
 private:
+    // TODO: Implementar nuevo parámetro "orientación" en simular comando
     Curiosity robot;
     string command;
 
@@ -29,6 +32,9 @@ public:
     void begin();
     void evaluateCommand();
     bool checkArgumentsNumber(vector<string> commands, int args);
+    void writeFile(string fileType, string fileName);
+    void readCommands(string fileName);
+    void readElements(string fileName);
 
     // TODO: Hacer metodo para limpiar consola tanto el linux y windows
 
