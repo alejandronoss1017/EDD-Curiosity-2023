@@ -16,7 +16,6 @@ class Shell
 {
 private:
     Curiosity robot;
-    queue<string> commands;
     string command;
 
 public:
@@ -30,10 +29,8 @@ public:
     void begin();
     void evaluateCommand();
     bool checkArgumentsNumber(vector<string> commands, int args);
-    vector<string> readfile(string filename);
 
-    void uploadCommands(string filename);
-    void addCommand(string command);
+    // TODO: Hacer metodo para limpiar consola tanto el linux y windows
 
     /*  Getters and Setters */
     string getCommand() const;
