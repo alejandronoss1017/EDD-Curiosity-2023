@@ -2,6 +2,7 @@
 #define ELEMENT_hpp
 
 #include "../enums/analysisTypes.hpp"
+#include "../enums/measureTypes.hpp"
 
 #include <string>
 
@@ -12,12 +13,12 @@ class Element
 private:
     elementTypes componentType;
     int size;
-    string measureUnit;
+    measureType measureUnit;
     int coordinateX;
     int coordinateY;
 
 public:
-    Element(elementTypes componentType, int size, string measureUnit, int coordinateX, int coordinateY);
+    Element(elementTypes componentType, int size, measureType measureUnit, int coordinateX, int coordinateY);
     ~Element();
 
     /* Operations overload */
