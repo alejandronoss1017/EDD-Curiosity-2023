@@ -9,7 +9,7 @@ vector<string> myStrTok(const string str)
     string temp;
     for (int i = 0; i < str.length(); i++)
     {
-        if (str[i] == ' ' && flag == false)
+        if (str[i] == ' ' && !flag)
         {
             tokens.push_back(temp);
             temp.clear();
@@ -44,7 +44,7 @@ bool checkInt(string arg)
 {
     try
     {
-        return (stoi(arg) ? true : false);
+        return stoi(arg) != 0;
     }
     catch (invalid_argument const &e)
     {
