@@ -1,8 +1,6 @@
-#include <iostream>
+#include "system/Shell.hpp"
 
-#include "cli/Shell.hpp"
-
-int main(int argc, char const *argv[])
+int main()
 {
 
     Shell shell;
