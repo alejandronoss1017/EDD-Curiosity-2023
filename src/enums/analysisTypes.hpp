@@ -8,18 +8,18 @@ using namespace std;
 
 enum analysisTypes
 {
-    fotografiar,
-    composicion,
-    perforar,
+    fotografiar = 15,
+    composicion = 16,
+    perforar = 17,
 };
 
 enum elementTypes
 {
-    roca,
-    crater,
-    monticulo,
-    arena,
-    duna,
+    roca = 18,
+    crater = 19,
+    monticulo = 20,
+    arena = 21,
+    duna = 22,
 };
 
 bool isAnalysisTypes(const string &str)

@@ -6,21 +6,16 @@
 
 using namespace std;
 
-enum measureUnit
+enum measureType
 {
-    cm,
-    m,
-    km,
-    grados,
+    cm = 30,
+    m = 31,
+    km = 32,
+    deg = 33,
+    rad = 34,
 };
 
-enum movementType
-{
-    avanzar,
-    girar,
-};
-
-bool isMeasureUnit(const string &str)
+bool isMeasureType(const string &str)
 {
     if (str == "cm")
     {
@@ -44,60 +39,31 @@ bool isMeasureUnit(const string &str)
     }
 }
 
-measureUnit str2MeasureUnit(const string &str)
+measureType str2MeasureType(const string &str)
 {
     if (str == "cm")
     {
-        return measureUnit::cm;
+        return measureType::cm;
     }
     else if (str == "m")
     {
-        return measureUnit::m;
+        return measureType::m;
     }
     else if (str == "km")
     {
-        return measureUnit::km;
+        return measureType::km;
     }
-    else if (str == "grados")
+    else if (str == "deg")
     {
-        return measureUnit::grados;
+        return measureType::deg;
+    }
+    else if (str == "rad")
+    {
+        return measureType::rad;
     }
     else
     {
         throw runtime_error("Valor inválido para unidad de medida");
     }
 }
-
-bool isMovementType(const string &str)
-{
-    if (str == "avanzar")
-    {
-        return true;
-    }
-    else if (str == "girar")
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-movementType str2MovementType(const string &str)
-{
-    if (str == "avanzar")
-    {
-        return movementType::avanzar;
-    }
-    else if (str == "girar")
-    {
-        return movementType::girar;
-    }
-    else
-    {
-        throw runtime_error("Valor inválido para unidad de medida");
-    }
-}
-
 #endif // MEASURETYPES_HPP
