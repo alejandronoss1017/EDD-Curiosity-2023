@@ -22,3 +22,53 @@ ostream &operator<<(ostream &os, const Element &element)
        << "Coordenada Y: " << element.coordinateY;
     return os;
 }
+
+elementTypes Element::GetComponentType() const
+{
+    return componentType;
+}
+
+void Element::SetComponentType(elementTypes componentType)
+{
+    componentType = componentType;
+}
+
+int Element::GetSize() const
+{
+    return size;
+}
+
+void Element::SetSize(int size)
+{
+    size = size;
+}
+
+measureType Element::GetMeasureUnit() const
+{
+    return measureUnit;
+}
+
+void Element::SetMeasureUnit(measureType measureUnit)
+{
+    measureUnit = measureUnit;
+}
+
+int Element::GetCoordinateX() const
+{
+    return coordinateX;
+}
+
+void Element::SetCoordinateX(int coordinateX)
+{
+    coordinateX = coordinateX;
+}
+
+int Element::GetCoordinateY() const
+{
+    return coordinateY;
+}
+
+void Element::SetCoordinateY(int coordinateY)
+{
+    coordinateY = coordinateY;
+}
