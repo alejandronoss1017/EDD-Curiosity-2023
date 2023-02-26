@@ -44,7 +44,14 @@ bool checkInt(string arg)
 {
     try
     {
-        return stoi(arg) != 0;
+        if (arg == "0")
+        {
+            return true;
+        }
+        else
+        {
+            return stoi(arg);
+        }
     }
     catch (invalid_argument const &e)
     {
