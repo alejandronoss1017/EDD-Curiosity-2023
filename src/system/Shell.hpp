@@ -1,12 +1,15 @@
 #if !defined(SHELL__HPP)
 #define SHELL__HPP
 
+#define _USE_MATH_DEFINES
+
 #include <iostream>
 #include <vector>
 #include <list>
 #include <string>
 #include <fstream>
 #include <queue>
+#include <cmath>
 
 #include "../element/Element.hpp"
 #include "../commonFunctions/commonFunctions.hpp"
@@ -44,6 +47,7 @@ public:
     void writeFile(string fileType, string fileName);
     void readCommands(string fileName);
     void readElements(string fileName);
+    void simulateCommands();
 
     void addCommand(Command command);
     void addAnalysis(Analysis analysis);
