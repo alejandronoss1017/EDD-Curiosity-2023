@@ -1,4 +1,5 @@
 avanzar 20 m
-avanzar 5 degrees
-avanzar 10 m
-avanzar 15 degrees
+girar 90 deg
+avanzar 10 cm
+avanzar 15 deg
+girar -30 deg
