@@ -1,0 +1,8 @@
+avanzar 10 m
+girar 45 deg
+avanzar 124 cm
+girar -65 deg
+avanzar 1 km
+avanzar 50 cm
+girar -25.6 deg
+avanzar 10.5 m
