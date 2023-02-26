@@ -474,7 +474,7 @@ void Shell::evaluateCommand()
         break;
     case guardar:
 
-         if (checkArgumentsNumber(params, 2))
+        if (checkArgumentsNumber(params, 2))
         {
             writeFile(params.at(0), (params.at(1)));
             break;
@@ -486,14 +486,15 @@ void Shell::evaluateCommand()
 
     case simular_comandos:
 
-        if (checkArgumentsNumber(params, 3))
+        if (checkArgumentsNumber(params, 2))
         {
-            if (checkInt(params[1]) && checkInt(params[2]))
+            if (checkInt(params[0]) && checkInt(params[1]))
             {
-                cout << " La simulación de los comandos, a partir de la posición (coordX,coordY ), deja al robot en la nueva posición (nuevoX ,nuevoY )." << endl;
-                break;
+                // Coordinate aux(stod(params.at(0), stod(params.at(1))))
+                robot.SetCoordinate(Coordinate(stod(params.at(0)),
+                                               stod(params.at(1))));
+                simulateCommands();
             }
-            cout << " La información requerida no está almacenada en memoria." << endl;
         }
         else
         {
@@ -652,9 +653,23 @@ void Shell::readCommands(string fileName)
             string aux;
             vector<string> v = myStrTok(line);
             aux = v.at(0);
+
             v.erase(v.begin());
 
-            addCommand(Command(str2CommandTypes(aux), v));
+            if ((str2CommandTypes(aux) == avanzar &&
+                 (str2MeasureType(v.at(1)) == cm || str2MeasureType(v.at(1)) == m ||
+                  str2MeasureType(v.at(1)) == km)))
+            {
+                addCommand(Command(str2CommandTypes(aux), v));
+            }
+            else if (str2CommandTypes(aux) == girar && str2MeasureType(v.at(1)) == deg)
+            {
+                addCommand(Command(str2CommandTypes(aux), v));
+            }
+            else
+            {
+                cout << "La información del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad)." << endl;
+            }
         }
 
         if (commands.size() == 0)
@@ -716,6 +731,56 @@ void Shell::readElements(string fileName)
     {
         cerr << e.what() << '\n';
     }
+}
+
+void Shell::simulateCommands()
+{
+
+    while (!commands.empty())
+    {
+        Command c = commands.front();
+
+        if (c.GetCommand() == avanzar)
+        {
+            double d = 0;
+            Coordinate aux;
+            double posX = 0;
+            double posY = 0;
+            if (c.GetParams().at(1) == "m" || c.GetParams().at(1) == "cm" ||
+                c.GetParams().at(1) == "km")
+            {
+                d = stod(c.GetParams().at(0));
+                if (c.GetParams().at(1) == "cm")
+                {
+                    d = d * 0.01;
+                }
+
+                if (c.GetParams().at(1) == "km")
+                {
+                    d = d * 1000;
+                }
+
+                posX = d * cos(robot.GetOrientation() * M_PI / 180) + robot.GetCoordinate().GetPosX();
+                aux.SetPosX(posX);
+                posY = d * sin(robot.GetOrientation() * M_PI / 180) + robot.GetCoordinate().GetPosY();
+                aux.SetPosY(posY);
+
+                robot.SetCoordinate(aux);
+            }
+        }
+        if (c.GetCommand() == girar)
+        {
+            double aux = 0;
+            aux = stod(c.GetParams().at(0)) + robot.GetOrientation();
+            robot.SetOrientation(aux);
+        }
+
+        commands.pop();
+    }
+
+    cout << "La posicion final es [ " << robot.GetCoordinate().GetPosX() << " ]"
+         << " [ " << robot.GetCoordinate().GetPosY() << "] "
+         << "(" << robot.GetOrientation() << "°)";
 }
 
 void Shell::addCommand(Command command)
