@@ -42,6 +42,26 @@ bool isAnalysisTypes(const string &str)
     }
 }
 
+string analysisTypes2String(analysisTypes type)
+{
+    if (type == fotografiar)
+    {
+        return "fotografiar";
+    }
+    else if (type == composicion)
+    {
+        return "composicion";
+    }
+    else if (type == perforar)
+    {
+        return "perforar";
+    }
+    else
+    {
+        throw runtime_error("Valor inválido para el tipo de analisis.");
+    }
+}
+
 analysisTypes str2AnalysisTypes(const string &str)
 {
     if (str == "fotografiar")
