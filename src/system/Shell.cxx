@@ -432,11 +432,11 @@ void Shell::evaluateCommand()
                     {
 
                         addAnalysis(Analysis(str2AnalysisTypes(params.at(0)), params.at(1)));
-                        cout << "El comando de análisis ha sido agregado exitosamente" << endl;
+                        cout << "El análisis ha sido agregado exitosamente" << endl;
                         break;
                     }
                     addAnalysis(Analysis(str2AnalysisTypes(params.at(0)), params.at(1), params.at(2)));
-                    cout << "El comando de análisis ha sido agregado exitosamente" << endl;
+                    cout << "El análisis ha sido agregado exitosamente" << endl;
                     break;
                 }
             }
@@ -579,7 +579,7 @@ bool Shell::checkArgumentsNumber(vector<string> params, int args)
 
 void Shell::writeFile(string fileType, string fileName)
 {
-    if (fileType == "txt")
+    if (fileType == "comandos")
     {
         try
         {
@@ -600,6 +600,31 @@ void Shell::writeFile(string fileType, string fileName)
                 cQ.pop();
             }
 
+            file << "-Analisis-" << endl;
+            for (auto &&analysis : analysisList)
+            {
+                file << "*****************************" << endl;
+                file << analysis << endl;
+            }
+
+            file.close();
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    else if (fileType == "elementos")
+    {
+        try
+        {
+
+            ofstream file(fileName.append(".txt"));
+            if (!file.is_open())
+            {
+                throw runtime_error("No se pudo abrir el archivo para escribir.");
+            }
+
             file << "-Elementos-" << endl;
             for (auto &&element : elements)
             {
@@ -613,11 +638,6 @@ void Shell::writeFile(string fileType, string fileName)
         {
             std::cerr << e.what() << '\n';
         }
-    }
-    else if (fileType == "bin")
-    {
-        // TODO: Escritura de un archivo binario
-        /* code */
     }
     else
     {
@@ -780,7 +800,7 @@ void Shell::simulateCommands()
 
     cout << "La posicion final es [ " << robot.GetCoordinate().GetPosX() << " ]"
          << " [ " << robot.GetCoordinate().GetPosY() << "] "
-         << "(" << robot.GetOrientation() << "°)";
+         << "(" << robot.GetOrientation() << "°)" << endl;
 }
 
 void Shell::addCommand(Command command)
