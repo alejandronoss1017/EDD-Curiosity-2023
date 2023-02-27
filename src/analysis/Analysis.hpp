@@ -27,6 +27,9 @@ public:
     void setObjectName(string objectName);
     string getAnnotation() const;
     void setAnnotation(string annotation);
+
+    friend ostream &operator<<(ostream &os, const Analysis &analysis);
+    
 };
 
 #include "Analysis.cxx"

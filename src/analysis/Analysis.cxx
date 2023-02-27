@@ -47,3 +47,11 @@ void Analysis::setAnnotation(string annotation)
 {
     this->annotation = annotation;
 }
+
+ostream &operator<<(ostream &os, const Analysis &analysis)
+{
+    os << "Tipo de analisis: " << analysisTypes2String(analysis.type) << endl
+       << "Nombre: " << analysis.objectName << endl
+       << "Comentario: " << analysis.annotation;
+    return os;
+}
