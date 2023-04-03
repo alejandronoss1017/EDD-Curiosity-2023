@@ -66,4 +66,32 @@ measureType str2MeasureType(const string &str)
         throw runtime_error("Valor inválido para unidad de medida");
     }
 }
+
+string measureType2String(const measureType &measure)
+{
+    if (measure == cm)
+    {
+        return "cm";
+    }
+    else if (measure == m)
+    {
+        return "m";
+    }
+    else if (measure == km)
+    {
+        return "km";
+    }
+    else if (measure == deg)
+    {
+        return "deg";
+    }
+    else if (measure == rad)
+    {
+        return "rad";
+    }
+    else
+    {
+        throw runtime_error("Valor inválido para unidad de medida");
+    }
+}
 #endif // MEASURETYPES_HPP
