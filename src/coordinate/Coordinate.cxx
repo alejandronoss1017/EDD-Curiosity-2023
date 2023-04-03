@@ -35,3 +35,9 @@ void Coordinate::SetPosY(double posY)
 {
     this->posY = posY;
 }
+
+ostream &operator<<(ostream &os, const Coordinate &coordinate)
+{
+    os << "posX: " << coordinate.GetPosX() << " posY: " << coordinate.GetPosY();
+    return os;
+}
