@@ -6,11 +6,27 @@ QuadNode::QuadNode(const Coordinate &coordinate)
 {
     QuadNode::coordinate = coordinate;
     QuadNode::children.fill(nullptr);
+    QuadNode::element = Element();
+}
+
+QuadNode::QuadNode(const Coordinate &coordinate, const Element &element)
+{
+    QuadNode::coordinate = coordinate;
+    QuadNode::children.fill(nullptr);
+    QuadNode::element = element;
 }
 
 QuadNode::QuadNode(const Coordinate &coordinate, const array<QuadNode *, 4> &children)
 {
     QuadNode::coordinate = coordinate;
+    QuadNode::children = children;
+    QuadNode::element = Element();
+}
+
+QuadNode::QuadNode(const Coordinate &coordinate, const Element &element, const array<QuadNode *, 4> &children)
+{
+    QuadNode::coordinate = coordinate;
+    QuadNode::element = element;
     QuadNode::children = children;
 }
 
@@ -70,4 +86,14 @@ bool QuadNode::isLeaf() const
         }
     }
     return true;
+}
+
+const Element &QuadNode::getElement() const
+{
+    return element;
+}
+
+void QuadNode::setElement(const Element &element)
+{
+    QuadNode::element = element;
 }

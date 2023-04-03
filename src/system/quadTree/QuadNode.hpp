@@ -2,7 +2,8 @@
 #define EDD_CURIOSITY_QUAD_NODE_HPP
 
 #include <array>
-#include "../../curiosity/coordinate/Coordinate.hpp"
+#include "../../coordinate/Coordinate.hpp"
+#include "../../element/Element.hpp"
 
 using namespace std;
 
@@ -10,6 +11,8 @@ class QuadNode
 {
 protected:
     Coordinate coordinate;
+
+    Element element;
 
     // 4 children, 0 = SW (South West), 1 = NW (North West), 2 = SE (South East), 3 = NE (North East)
     array<QuadNode *, 4> children;
@@ -20,7 +23,11 @@ public:
 
     QuadNode(const Coordinate &coordinate);
 
+    QuadNode(const Coordinate &coordinate, const Element &element);
+
     QuadNode(const Coordinate &coordinate, const array<QuadNode *, 4> &children);
+
+    QuadNode(const Coordinate &coordinate, const Element &element, const array<QuadNode *, 4> &children);
 
     ~QuadNode();
 
@@ -42,6 +49,10 @@ public:
     void setChildren(const array<QuadNode *, 4> &children);
 
     void setChild(const int &index, QuadNode *child);
+
+    const Element &getElement() const;
+
+    void setElement(const Element &element);
 
     /*  Other Methods  */
     bool isLeaf() const;
