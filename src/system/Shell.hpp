@@ -19,18 +19,19 @@
 #include "../command/Command.hpp"
 #include "../curiosity/Curiosity.hpp"
 #include "../analysis/Analysis.hpp"
+#include "quadTree/QuadTree.hpp"
 
 using namespace std;
 
 class Shell
 {
 private:
-    // TODO: Implementar nuevo parámetro "orientación" en simular comando
 
     Command command;
     queue<Command> commands;
     list<Element> elements;
     list<Analysis> analysisList;
+    QuadTree quadTree;
     Curiosity robot;
 
 public:
@@ -52,6 +53,10 @@ public:
     void addCommand(Command command);
     void addAnalysis(Analysis analysis);
     void addElement(Element element);
+
+    void locateElements();
+
+    void onQuadrant(double minX, double maxX, double minY, double maxY);
 
     // TODO: Hacer metodo para limpiar consola tanto el linux y windows
 
