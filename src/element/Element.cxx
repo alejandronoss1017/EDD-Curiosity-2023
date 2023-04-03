@@ -1,12 +1,13 @@
 #include "Element.hpp"
 
-Element::Element(elementTypes componentType, int size, measureType measureUnit, int coordinateX, int coordinateY)
+Element::Element() = default;
+
+Element::Element(elementTypes componentType, int size, measureType measureUnit, double coordinateX, double coordinateY)
 {
     this->componentType = componentType;
     this->size = size;
     this->measureUnit = measureUnit;
-    this->coordinateX = coordinateX;
-    this->coordinateY = coordinateY;
+    this->coordinate = Coordinate(coordinateX, coordinateY);
 }
 
 Element::~Element()
@@ -17,9 +18,8 @@ ostream &operator<<(ostream &os, const Element &element)
 {
     os << "Componente: " << element.componentType << endl
        << "Tamaño: " << element.size << endl
-       << "Unidad de medidad: " << element.measureUnit << endl
-       << "Coordenada X: " << element.coordinateX << endl
-       << "Coordenada Y: " << element.coordinateY;
+       << "Unidad de medidad: " << measureType2String(element.measureUnit) << endl
+       << element.coordinate << endl;
     return os;
 }
 
@@ -53,22 +53,32 @@ void Element::SetMeasureUnit(measureType measureUnit)
     measureUnit = measureUnit;
 }
 
-int Element::GetCoordinateX() const
+double Element::GetCoordinateX() const
 {
-    return coordinateX;
+    return coordinate.GetPosX();
 }
 
-void Element::SetCoordinateX(int coordinateX)
+void Element::SetCoordinateX(double coordinateX)
 {
-    coordinateX = coordinateX;
+    Element::coordinate.SetPosX(coordinateX);
 }
 
-int Element::GetCoordinateY() const
+double Element::GetCoordinateY() const
 {
-    return coordinateY;
+    return coordinate.GetPosY();
 }
 
-void Element::SetCoordinateY(int coordinateY)
+void Element::SetCoordinateY(double coordinateY)
 {
-    coordinateY = coordinateY;
+    Element::coordinate.SetPosY(coordinateY);
+}
+
+const Coordinate &Element::getCoordinate() const
+{
+    return coordinate;
+}
+
+void Element::setCoordinate(const Coordinate &coordinate)
+{
+    Element::coordinate = coordinate;
 }

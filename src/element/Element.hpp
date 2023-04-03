@@ -3,6 +3,7 @@
 
 #include "../enums/analysisTypes.hpp"
 #include "../enums/measureTypes.hpp"
+#include "../coordinate/Coordinate.hpp"
 
 #include <string>
 
@@ -14,11 +15,11 @@ private:
     elementTypes componentType;
     int size;
     measureType measureUnit;
-    int coordinateX;
-    int coordinateY;
+    Coordinate coordinate;
 
 public:
-    Element(elementTypes componentType, int size, measureType measureUnit, int coordinateX, int coordinateY);
+    Element();
+    Element(elementTypes componentType, int size, measureType measureUnit, double coordinateX, double coordinateY);
     ~Element();
 
     /*  Getters and Setters */
@@ -34,13 +35,17 @@ public:
 
     void SetMeasureUnit(measureType measureUnit);
 
-    int GetCoordinateX() const;
+    const Coordinate &getCoordinate() const;
 
-    void SetCoordinateX(int coordinateX);
+    void setCoordinate(const Coordinate &coordinate);
 
-    int GetCoordinateY() const;
+    double GetCoordinateX() const;
 
-    void SetCoordinateY(int coordinateY);
+    void SetCoordinateX(double coordinateX);
+
+    double GetCoordinateY() const;
+
+    void SetCoordinateY(double coordinateY);
 
     /* Operations overload */
 
