@@ -17,12 +17,13 @@ protected:
     int pointCount;
 
 private:
-    QuadNode *insertHelper(QuadNode *node, const Coordinate &coordinate);
+    QuadNode *insertHelper(QuadNode *node, const Coordinate &coordinate, const Element &element);
     QuadNode *removeHelper(QuadNode *node, const Coordinate &coordinate);
     QuadNode *findMinHelper(QuadNode *node);
     QuadNode *findMaxHelper(QuadNode *node);
     QuadNode *findHelper(QuadNode *node, const Coordinate &coordinate);
     QuadNode *clearHelper(QuadNode *node);
+    void searchHelper(const Coordinate &minCoordinate, const Coordinate &maxCoordinate, QuadNode *node, list<Element> &elements);
     void traverseInOrderHelper(QuadNode *node, ostream &os) const;
     void traversePreOrderHelper();
     void traversePostOrderHelper();
@@ -33,9 +34,10 @@ public:
     QuadTree(const Coordinate &coordinate);
     ~QuadTree();
 
-    bool insert(const Coordinate &coordinate);
-    bool remove(const Coordinate &coordinate);
-    bool find(const Coordinate &coordinate);
+    bool insert(const Element &element);
+    bool remove(const Element &element);
+    bool find(const Element &element);
+    list<Element> search(const Coordinate &minCoordinate, const Coordinate &maxCoordinate);
     bool empty();
     void clear();
     int height();

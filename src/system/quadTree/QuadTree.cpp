@@ -21,44 +21,59 @@ QuadTree::QuadTree(const Coordinate &coordinate)
 
 QuadTree::~QuadTree() = default;
 
-bool QuadTree::insert(const Coordinate &coordinate)
+bool QuadTree::insert(const Element &element)
 {
     if (root == nullptr)
     {
-        root = new QuadNode(coordinate);
+        root = new QuadNode(element.getCoordinate(), element);
         nodeCount++;
         pointCount++;
+        return true;
     }
 
-    insertHelper(root, coordinate);
+    insertHelper(root, element.getCoordinate(), element);
 
     return true;
 }
 
-bool QuadTree::remove(const Coordinate &coordinate)
+bool QuadTree::remove(const Element &element)
 {
     if (root == nullptr)
     {
         return false;
     }
 
-    removeHelper(root, coordinate);
+    removeHelper(root, element.getCoordinate());
 
     return true;
 }
 
-bool QuadTree::find(const Coordinate &coordinate)
+bool QuadTree::find(const Element &element)
 {
     if (root == nullptr)
     {
         return false;
     }
-    else if (findHelper(root, coordinate) == nullptr)
+    else if (findHelper(root, element.getCoordinate()) == nullptr)
     {
         return false;
     }
 
     return true;
+}
+
+list<Element> QuadTree::search(const Coordinate &minCoordinate, const Coordinate &maxCoordinate)
+{
+    if (root == nullptr)
+    {
+        return list<Element>();
+    }
+
+    list<Element> elements;
+
+    searchHelper(minCoordinate, maxCoordinate, root, elements);
+
+    return elements;
 }
 
 bool QuadTree::empty()
@@ -82,11 +97,11 @@ int QuadTree::height()
     return QuadTree::nodeCount;
 }
 
-QuadNode *QuadTree::insertHelper(QuadNode *node, const Coordinate &coordinate)
+QuadNode *QuadTree::insertHelper(QuadNode *node, const Coordinate &coordinate, const Element &element)
 {
     if (node == nullptr)
     {
-        return new QuadNode(coordinate);
+        return new QuadNode(coordinate, element);
         nodeCount++;
         pointCount++;
     }
@@ -101,22 +116,22 @@ QuadNode *QuadTree::insertHelper(QuadNode *node, const Coordinate &coordinate)
         {
             if (coordinate.GetPosY() < node->getCoordinateY())
             {
-                node->setChild(0, insertHelper(node->getChild(0), coordinate));
+                node->setChild(0, insertHelper(node->getChild(0), coordinate, element));
             }
             else
             {
-                node->setChild(1, insertHelper(node->getChild(1), coordinate));
+                node->setChild(1, insertHelper(node->getChild(1), coordinate, element));
             }
         }
         else if (coordinate.GetPosX() > node->getCoordinateX())
         {
             if (coordinate.GetPosY() < node->getCoordinateY())
             {
-                node->setChild(2, insertHelper(node->getChild(2), coordinate));
+                node->setChild(2, insertHelper(node->getChild(2), coordinate, element));
             }
             else
             {
-                node->setChild(3, insertHelper(node->getChild(3), coordinate));
+                node->setChild(3, insertHelper(node->getChild(3), coordinate, element));
             }
         }
         // If coordinateX == node->getCoordinateX() && coordinateY != node->getCoordinateY()
@@ -124,11 +139,11 @@ QuadNode *QuadTree::insertHelper(QuadNode *node, const Coordinate &coordinate)
         {
             if (coordinate.GetPosY() < node->getCoordinateY())
             {
-                node->setChild(0, insertHelper(node->getChild(0), coordinate));
+                node->setChild(0, insertHelper(node->getChild(0), coordinate, element));
             }
             else
             {
-                node->setChild(3, insertHelper(node->getChild(3), coordinate));
+                node->setChild(3, insertHelper(node->getChild(3), coordinate, element));
             }
         }
     }
@@ -246,6 +261,34 @@ QuadNode *QuadTree::clearHelper(QuadNode *node)
     delete node;
     node = nullptr;
     return node;
+}
+
+void QuadTree::searchHelper(const Coordinate &minCoordinate, const Coordinate &maxCoordinate, QuadNode *node, list<Element> &elements)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+    if (node->getCoordinateX() >= minCoordinate.GetPosX() && node->getCoordinateX() <= maxCoordinate.GetPosX() && node->getCoordinateY() >= minCoordinate.GetPosY() && node->getCoordinateY() <= maxCoordinate.GetPosY())
+    {
+        elements.push_back(node->getElement());
+    }
+    if (node->getChild(0) != nullptr && minCoordinate.GetPosX() <= node->getCoordinateX() && minCoordinate.GetPosY() <= node->getCoordinateY())
+    {
+        searchHelper(minCoordinate, maxCoordinate, node->getChild(0), elements);
+    }
+    if (node->getChild(1) != nullptr && minCoordinate.GetPosX() <= node->getCoordinateX() && maxCoordinate.GetPosY() >= node->getCoordinateY())
+    {
+        searchHelper(minCoordinate, maxCoordinate, node->getChild(1), elements);
+    }
+    if (node->getChild(2) != nullptr && maxCoordinate.GetPosX() >= node->getCoordinateX() && minCoordinate.GetPosY() <= node->getCoordinateY())
+    {
+        searchHelper(minCoordinate, maxCoordinate, node->getChild(2), elements);
+    }
+    if (node->getChild(3) != nullptr && maxCoordinate.GetPosX() >= node->getCoordinateX() && maxCoordinate.GetPosY() >= node->getCoordinateY())
+    {
+        searchHelper(minCoordinate, maxCoordinate, node->getChild(3), elements);
+    }
 }
 
 void QuadTree::traverseInOrderHelper(QuadNode *node, ostream &os) const
