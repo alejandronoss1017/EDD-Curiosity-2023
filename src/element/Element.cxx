@@ -16,7 +16,7 @@ Element::~Element()
 
 ostream &operator<<(ostream &os, const Element &element)
 {
-    os << "Componente: " << element.componentType << endl
+    os << "Componente: " << elementType2Str(element.componentType) << endl
        << "Tamaño: " << element.size << endl
        << "Unidad de medidad: " << measureType2String(element.measureUnit) << endl
        << element.coordinate << endl;
