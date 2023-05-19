@@ -1,6 +1,9 @@
 #if !defined(COORDINATE_HPP)
 #define COORDINATE_HPP
 
+#include <ostream>
+
+using namespace std;
 class Coordinate
 {
 private:
@@ -21,6 +24,8 @@ public:
     double GetPosY() const;
 
     void SetPosY(double posY);
+
+    friend ostream &operator<<(ostream &os, const Coordinate &coordinate);
 };
 
 #include "Coordinate.cxx"

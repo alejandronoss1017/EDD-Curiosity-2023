@@ -1,2 +1,12 @@
 roca 2 cm 10 23
-duna 5 cm 12 30
+duna 5 cm 20 33
+roca 2 cm 30 44
+duna 5 cm 40 55
+roca 2 cm 50 66
+duna 5 cm 60 77
+roca 2 cm 70 88
+duna 5 cm 80 99
+roca 2 cm 90 111
+duna 5 cm 100 120
+roca 2 cm 110 132
+duna 5 cm 120 143

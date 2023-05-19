@@ -1,7 +1,7 @@
 #if !defined(CURIOSITY_HPP)
 #define CURIOSITY_HPP
 
-#include "coordinate/Coordinate.hpp"
+#include "../coordinate/Coordinate.hpp"
 
 using namespace std;
 

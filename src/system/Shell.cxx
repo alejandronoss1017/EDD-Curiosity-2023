@@ -2,6 +2,7 @@
 
 Shell::Shell(/* args */)
 {
+    quadTree = QuadTree(Coordinate(0, 0));
     showMenu();
 }
 
@@ -94,11 +95,11 @@ void Shell::helpMenu(const string command)
 
         break;
     case str2int("ubicar_elementos"):
-        cout << "Parametros: ~coordX1 ~coordX2 ~coordY1" << endl;
+        cout << "No requiere parametros" << endl;
 
         break;
     case str2int("en_cuadrante"):
-        cout << "No requiere parametros" << endl;
+        cout << "Parametros: ~coordX1 ~coordX2 ~coordY1 ~coordY2" << endl;
 
         break;
     case str2int("crear_mapa"):
@@ -503,9 +504,17 @@ void Shell::evaluateCommand()
 
         break;
     case ubicar_elementos:
-        if (checkArgumentsNumber(params, 1))
+        if (checkArgumentsNumber(params, 0))
         {
-            cout << "Ubicando elementos" << endl;
+            if (!elements.empty())
+            {
+                locateElements();
+                cout << "Elementos ubicados exitosamente" << endl;
+            }
+            else
+            {
+                cout << "No existe informacion cargada en memoria" << endl;
+            }
         }
         else
         {
@@ -514,15 +523,30 @@ void Shell::evaluateCommand()
 
         break;
     case en_cuadrante:
-        cout << "Cuadranteando" << endl;
-        if (checkArgumentsNumber(params, 5))
+        if (checkArgumentsNumber(params, 4))
         {
-            if (checkInt(params[1]) && checkInt(params[2]) && checkInt(params[3]) && checkInt(params[4]))
+            if (checkInt(params.at(0)) && checkInt(params.at(1)) && checkInt(params.at(2)) && checkInt(params.at(3)))
             {
-                cout << " Los elementos ubicados en el cuadrante solicitado son:" << endl;
+
+                if (stof(params.at(0)) < stof(params.at(1)) && stof(params.at(2)) < stof(params.at(3)))
+                {
+                    cout << " Los elementos ubicados en el cuadrante solicitado son: " << endl;
+                    cout << endl;
+                    onQuadrant(stof(params.at(0)), stof(params.at(1)), stof(params.at(2)), stof(params.at(3)));
+                    break;
+                }
+                else
+                {
+
+                    cout << "La información del cuadrante no corresponde a los datos esperados (x_min < x_max, y_min < y_max)." << endl;
+                    break;
+                }
+            }
+            else
+            {
+                cout << " Los parametros no son numeros" << endl;
                 break;
             }
-            cout << "La información del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)." << endl;
         }
         else
         {
@@ -816,4 +840,21 @@ void Shell::addAnalysis(Analysis analysis)
 void Shell::addElement(Element element)
 {
     this->elements.push_back(element);
+}
+
+void Shell::locateElements()
+{
+    for (auto &&element : Shell::elements)
+    {
+        Shell::quadTree.insert(element);
+    }
+}
+
+void Shell::onQuadrant(double minX, double maxX, double minY, double maxY)
+{
+    list<Element> elements = Shell::quadTree.search(Coordinate(minX, minY), Coordinate(maxX, maxY));
+    for (auto &&element : elements)
+    {
+        cout << element << endl;
+    }
 }

@@ -138,4 +138,32 @@ elementTypes str2ElementType(const string &str)
     }
 }
 
+string elementType2Str(const elementTypes &type)
+{
+    if (type == roca)
+    {
+        return "roca";
+    }
+    else if (type == crater)
+    {
+        return "crater";
+    }
+    else if (type == monticulo)
+    {
+        return "monticulo";
+    }
+    else if (type == arena)
+    {
+        return "arena";
+    }
+    else if (type == duna)
+    {
+        return "duna";
+    }
+    else
+    {
+        throw runtime_error("Valor inválido para el tipo de analisis.");
+    }
+}
+
 #endif // ANALYSISTYPES_HPP
