@@ -78,7 +78,7 @@ list<Element> QuadTree::search(const Coordinate &minCoordinate, const Coordinate
 
 bool QuadTree::empty()
 {
-    return false;
+    return root == nullptr;
 }
 
 void QuadTree::clear()
