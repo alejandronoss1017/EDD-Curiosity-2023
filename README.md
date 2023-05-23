@@ -1,4 +1,4 @@
-# Taller 4 (ED - Grafos)
+# EDD-Curiosity-2023
 
 Este programa tiene como objetivo aplicar la teoria de grafos vista en las clases durante el tercer corte de la materia de Estructuras de Datos.
 
@@ -59,12 +59,12 @@ Entra en la carpeta del proyecto:
 
 __Bash/PowerShell__
 ```bash
-  cd Taller4
+  cd EDD-Curiosity-2023
 ```
 
 __cmd__
 ```bash
-  dir Taller4
+  dir EDD-Curiosity-2023
 ```
 
 Compilacion del programa:
@@ -76,12 +76,12 @@ El anterior comando generara una carpeta con el nombre "__build__" donde se enco
 
 __Bash/PowerShell__
 ```bash
-  cd Taller4/build
+  cd EDD-Curiosity-2023/build
 ```
 
 __cmd__
 ```bash
-  dir Taller4/build
+  dir EDD-Curiosity-2023/build
 ```
 
 Ahora necesitaremos ejecutar dicho archivo "__makefile__" para ello utilizaremos el siguiente comando estando en la misma carpeta del archivo:
@@ -90,139 +90,24 @@ Ahora necesitaremos ejecutar dicho archivo "__makefile__" para ello utilizaremos
   make
 ```
 
-Finalmente se nos generar un archivo ejecutable, este puede variar dependiendo de sistema operativo, en el caso de Windows un archivo `Taller4.exe` mientras que el Linux un archivo binario `Taller4`. Solo nos queda ejecutar el programa con el siguiente comando:
+Finalmente se nos generar un archivo ejecutable, este puede variar dependiendo de sistema operativo, en el caso de Windows un archivo `main.exe` mientras que el Linux un archivo binario `main`. Solo nos queda ejecutar el programa con el siguiente comando:
 
 __Bash__
 ```bash
-  ./Taller4
+  ./main
 ```
 
 __PowerShell__
 ```bash
-  ./Taller4.exe
+  ./main.exe
 ```
 
 __cmd__
 ```bash
-  start ./Taller4.exe
-```
-## 📖 Referencia de los metodos
-
-#### Cargar informacion de aeropuertos
-
-```cpp
-  void loadAirports(string airportsFilePath)
+  start ./main.exe
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `airportsFilePath `| `string` | **Requerido** ruta del archivo.|
-
-#### Cargar informacion de vuelos
-
-```cpp
-  void loadFlights(string flightsFilePath)
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `flightsFilePath `| `string` | **Requerido** ruta del archivo.|
-
-#### Mostrar aeropuertos
-
-```cpp
-  void showAirports()
-```
-
-#### Mostrar vuelos
-
-```cpp
-  void showFlights()
-```
-
-#### Mostrar el camino mas rapido
-
-```cpp
-  void fastestPath(string sourceAirportID, string destinationAirportID)
-```
-
-| Parameters             | Type   | Description                                           |
-| ---------------------- | ------ | ----------------------------------------------------- |
-| `sourceAirportID`      | string | **Requerido** Identificador del aeropuerto de partida.       |
-| `destinationAirportID` | string | **Requerido** Identificador del aeropuerto de llegada.  |
-
-#### Mostrar el camino mas barato
-
-```cpp
-  void cheapestPath(string sourceAirportID, string destinationAirportID)
-```
-
-| Parameters             | Type   | Description                                           |
-| ---------------------- | ------ | ----------------------------------------------------- |
-| `sourceAirportID`      | string | **Requerido** Identificador del aeropuerto de partida.       |
-| `destinationAirportID` | string | **Requerido** Identificador del aeropuerto de llegada.  |
-
-#### Mostrar el camino mas corto en distacia
-
-```cpp
-  void shortestPath(string sourceAirportID, string destinationAirportID)
-```
-
-| Parameters             | Type   | Description                                           |
-| ---------------------- | ------ | ----------------------------------------------------- |
-| `sourceAirportID`      | string | **Requerido** Identificador del aeropuerto de partida.       |
-| `destinationAirportID` | string | **Requerido** Identificador del aeropuerto de llegada.  |
-
-## 🏛️ Diagrama de clases
-
-![Diagrama de clases]()
-
-## ⛩️ Estructura de carpeta
-
-```
-.
-└── Taller4/
-    ├── build/
-    │   ├── cmakefiles/
-    │   ├── cmake_install.cmake
-    │   ├── MakeCache.txt
-    │   ├── Makefile
-    │   └── Taller4
-    ├── data/
-    │   ├── aeropuertos.csv
-    │   └── vuelos.csv
-    ├── images/
-    │   ├── testCase.png
-    │   └── classDiagram.png
-    ├── include/
-    │   ├── Edge.hpp
-    │   ├── Edge.tpp
-    │   ├── Graph.hpp
-    │   ├── Graph.tpp
-    │   ├── Node.hpp
-    │   └── Node.tpp
-    ├── src/
-    │   ├── airport/
-    │   │   ├── Airport.cpp
-    │   │   └── Airport.hpp
-    │   ├── flight/
-    │   │   ├── Flight.cpp
-    │   │   └── Flight.hpp
-    │   ├── shell/
-    │   │   ├── Shell.cpp
-    │   │   └── Shell.hpp
-    │   └── utils/
-    │       └── filesOperations.hpp
-    ├── CMakeList.txt
-    ├── main.cpp
-    ├── README.md
-    └── TallerGrafos.pdf
-```
-
-## 🔍 Resultados obtenidos
-
-![Evidencias de ejecucion](./images/testCase.png)
-  > Al momento de utilizar una ruta de archivo, cabe resaltar que la ruta es relativa al archivo, por ende si se ejecuta desde `./buil/Taller4` la ruta de los datos seria `../data/*.csv`
+  > Al momento de utilizar una ruta de archivo, cabe resaltar que la ruta es relativa al archivo, por ende si se ejecuta desde `./build/main` la ruta de los datos seria `../*.txt`
 
 ## ✒️ Autores
 
