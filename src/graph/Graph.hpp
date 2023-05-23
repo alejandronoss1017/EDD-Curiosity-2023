@@ -89,11 +89,13 @@ public:
 
     bool addEdge(K id1, K id2, double weight, bool directed);
 
+    int getNodeIndex(K id) const;
+
     bool removeNode(K id);
 
     bool removeNode(Node<K, T> node);
 
-    bool removeEdge(string id1, string id2);
+    bool removeEdge(const string &id1, const string &id2);
 
     bool removeEdge(string id1, string id2, bool directed);
 
@@ -112,8 +114,10 @@ public:
     map<Node<K, T>, double> dijkstra(K startNodeId);
 
     vector<Node<K, T>> shortestPath(K sourceId, K destinationId);
+
+    vector<vector<double>> floydWarshall();
 };
 
-#include "../../src/graph/Graph.cpp"
+#include "Graph.cpp"
 
 #endif // DATA_STRUCTURES_GRAPH_HPP

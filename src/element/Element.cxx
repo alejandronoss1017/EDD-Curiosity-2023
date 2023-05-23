@@ -73,6 +73,14 @@ void Element::SetCoordinateY(double coordinateY)
     Element::coordinate.SetPosY(coordinateY);
 }
 
+bool Element::operator==(const Element &rhs) const
+{
+    return componentType == rhs.componentType &&
+           size == rhs.size &&
+           measureUnit == rhs.measureUnit &&
+           coordinate == rhs.coordinate;
+}
+
 const Coordinate &Element::getCoordinate() const
 {
     return coordinate;

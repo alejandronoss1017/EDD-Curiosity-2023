@@ -26,6 +26,8 @@ public:
     void SetPosY(double posY);
 
     friend ostream &operator<<(ostream &os, const Coordinate &coordinate);
+
+    bool operator==(const Coordinate &rhs) const;
 };
 
 #include "Coordinate.cxx"

@@ -1,4 +1,4 @@
-#include "./Edge.hpp"
+#include "Edge.hpp"
 
 /**
  * @brief Construct a new Edge object

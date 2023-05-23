@@ -1,4 +1,4 @@
-#include "./Node.hpp"
+#include "Node.hpp"
 
 /**
  * @brief Construct a new Node object

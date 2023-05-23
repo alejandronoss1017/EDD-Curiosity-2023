@@ -20,6 +20,7 @@
 #include "../curiosity/Curiosity.hpp"
 #include "../analysis/Analysis.hpp"
 #include "quadTree/QuadTree.hpp"
+#include "../graph/Graph.hpp"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ private:
     list<Analysis> analysisList;
     QuadTree quadTree;
     Curiosity robot;
+    Graph<string, Element> graph;
 
 public:
     // Constructor
@@ -57,6 +59,14 @@ public:
     void locateElements();
 
     void onQuadrant(double minX, double maxX, double minY, double maxY);
+
+    void createMap(double conectivityCoefficient);
+
+    double calculateDistance(Node<string, Element> n1, Node<string, Element> n2);
+
+    // vector<Node<string, Element>> findFarthestRoute();
+    void findFarthestRoute();
+
 
     // TODO: Hacer metodo para limpiar consola tanto el linux y windows
 

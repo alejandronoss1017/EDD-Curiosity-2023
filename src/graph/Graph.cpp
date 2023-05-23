@@ -1,4 +1,4 @@
-#include "./Graph.hpp"
+#include "Graph.hpp"
 
 /**
  * @brief Constructs a new object of the Graph class.
@@ -258,6 +258,31 @@ bool Graph<K, T>::addEdge(K id1, K id2, double weight)
 }
 
 /**
+ * @brief               This method returns the index of a node in the nodes map.
+ *
+ *
+ * @tparam K            Key is the type of the key of the node.
+ * @tparam T            Data is the data of the node.
+ * @param id            Id of the node.
+ * @return              Index of the node.
+ */
+template <typename K, typename T>
+int Graph<K, T>::getNodeIndex(K id) const
+{
+    int index = 0;
+    for (const auto &nodePair : nodes)
+    {
+        if (nodePair.first == id)
+        {
+            return index;
+        }
+        index++;
+    }
+    // Return -1 or throw an exception if the node ID is not found
+    return -1;
+}
+
+/**
  * @brief This method adds an edge between two nodes, the edge is
  * added only in one direction as same as the weight.
  *
@@ -390,7 +415,7 @@ bool Graph<K, T>::removeNode(Node<K, T> id)
  * @throws runtime_error    If the edge doesn't exist.
  */
 template <typename K, typename T>
-bool Graph<K, T>::removeEdge(string id1, string id2)
+bool Graph<K, T>::removeEdge(const string& id1, const string& id2)
 {
     try
     {
@@ -739,24 +764,30 @@ map<Node<K, T>, double> Graph<K, T>::dijkstra(K startNodeId)
 {
     // Initialize the distance of all nodes to infinity, except the start node.
     map<Node<K, T>, double> distances;
-    for (const auto &[id, node] : nodes)
+    for (auto it = nodes.begin(); it != nodes.end(); ++it)
     {
+        const auto& id = it->first;
+        const auto& node = it->second;
+
         if (id == startNodeId)
         {
             distances[node] = 0.0;
         }
         else
         {
-            distances[node] = numeric_limits<double>::infinity();
+            distances[node] = std::numeric_limits<double>::infinity();
         }
     }
+
 
     // Intialize the set of visited nodes and the set of unvisited nodes.
     set<Node<K, T>> visited;
     set<Node<K, T>> unvisited;
 
-    for (const auto &[id, node] : nodes)
+    for (typename std::map<K, Node<K, T>>::const_iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
+        const K& id = it->first;
+        const Node<K, T>& node = it->second;
         unvisited.insert(node);
     }
 
@@ -766,8 +797,12 @@ map<Node<K, T>, double> Graph<K, T>::dijkstra(K startNodeId)
         // Find the unvisited node with the smallest distance.
         Node<K, T> current;
         double minDistance = numeric_limits<double>::infinity();
-        for (const auto &[node, distance] : distances)
+
+        for (auto it = distances.begin(); it != distances.end(); ++it)
         {
+            const auto& node = it->first;
+            const auto& distance = it->second;
+
             if (unvisited.count(node) > 0 && distance < minDistance)
             {
                 current = node;
@@ -866,4 +901,56 @@ vector<Node<K, T>> Graph<K, T>::shortestPath(K sourceId, K destinationId)
     path.insert(path.begin(), nodes[sourceId]);
 
     return path;
+}
+
+/**
+ * @brief       This method applies the Floyd-Warshall algorithm to the graph. It will find the
+ *              shortest path between all pairs of nodes in the graph.
+ *
+ *
+ * @tparam K            Key is the type of the key of the node.
+ * @tparam T            Data is the data of the node.
+ * @return              A matrix with the distances between all pairs of nodes in the graph.
+ */
+template <typename K, typename T>
+vector<vector<double>> Graph<K, T>::floydWarshall()
+{
+    // Initialize the distance matrix with infinite distances
+    vector<vector<double>> distances;
+    int n = nodes.size();
+    distances.resize(n, vector<double>(n, numeric_limits<double>::infinity()));
+
+    // Initialize the diagonal elements to 0
+    for (int i = 0; i < n; i++)
+    {
+        distances[i][i] = 0;
+    }
+
+    // Set the initial distances based on the existing edges
+    for (const auto &edgePair : edges)
+    {
+        const Edge<K, T> &edge = edgePair.second;
+        int sourceIndex = getNodeIndex(edge.getSource().getId());
+        int destinationIndex = getNodeIndex(edge.getDestination().getId());
+        distances[sourceIndex][destinationIndex] = edge.getWeight();
+    }
+
+    // Perform the Floyd-Warshall algorithm
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            for (int k = 0; k < n; k++)
+            {
+                if (distances[i][k] != numeric_limits<double>::infinity() &&
+                    distances[k][j] != numeric_limits<double>::infinity() &&
+                    distances[i][k] + distances[k][j] < distances[i][j])
+                {
+                    distances[i][j] = distances[i][k] + distances[k][j];
+                }
+            }
+        }
+    }
+
+    return distances;
 }

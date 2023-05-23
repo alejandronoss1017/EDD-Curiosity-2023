@@ -36,6 +36,12 @@ void Coordinate::SetPosY(double posY)
     this->posY = posY;
 }
 
+bool Coordinate::operator==(const Coordinate &rhs) const
+{
+    return posX == rhs.posX &&
+           posY == rhs.posY;
+}
+
 ostream &operator<<(ostream &os, const Coordinate &coordinate)
 {
     os << "posX: " << coordinate.GetPosX() << " posY: " << coordinate.GetPosY();

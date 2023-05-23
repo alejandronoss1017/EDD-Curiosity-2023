@@ -2,7 +2,6 @@
 #define DATA_STRUCTURES_GRAPH_NODE_HPP
 
 #include <vector>
-#include <ostream>
 
 using namespace std;
 
@@ -67,6 +66,6 @@ public:
     /* Methods */
 };
 
-#include "../../src/graph/Node.cpp"
+#include "Node.cpp"
 
 #endif // DATA_STRUCTURES_GRAPH_NODE_HPP

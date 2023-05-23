@@ -3,6 +3,7 @@
 Shell::Shell(/* args */)
 {
     quadTree = QuadTree(Coordinate(0, 0));
+    graph = Graph<string, Element>();
     showMenu();
 }
 
@@ -555,15 +556,19 @@ void Shell::evaluateCommand()
 
         break;
     case crear_mapa:
-        cout << "Creando mapa" << endl;
-        if (checkArgumentsNumber(params, 2))
+        if (checkArgumentsNumber(params, 1) && stod(params[0]) > 0)
         {
-            if (is_valid_float(params[1]))
+            if (is_valid_float(params[0]) && !quadTree.empty())
             {
+                createMap(stof(params.at(0)));
                 cout << "El mapa se ha generado exitosamente." << endl;
                 break;
             }
-            cout << " La información requerida no está almacenada en memoria" << endl;
+            else
+            {
+                cout << "La información requerida no está almacenada en memoria." << endl;
+                break;
+            }
         }
         else
         {
@@ -573,14 +578,15 @@ void Shell::evaluateCommand()
         break;
     case ruta_mas_larga:
 
-        if (checkArgumentsNumber(params, 1))
+        if (checkArgumentsNumber(params, 0))
         {
-            cout << "Verificando la ruta más larga" << endl;
+
+            findFarthestRoute();
         }
         else
 
         {
-            cout << "cantidad de argumentos incorrecta" << endl;
+            cout << "cantidad de argumentos incorrecta y/o el coeficiente tiene que ser mayor a 0" << endl;
         }
 
         break;
@@ -857,4 +863,119 @@ void Shell::onQuadrant(double minX, double maxX, double minY, double maxY)
     {
         cout << element << endl;
     }
+}
+
+void Shell::createMap(double conectivityCoefficient)
+{
+    int index = 0;
+    int amountOfEdges = conectivityCoefficient * elements.size();
+    for (Element el : elements)
+    {
+        graph.addNode(elementType2Str(el.GetComponentType()) + to_string(index), el);
+        index++;
+    }
+
+    for (auto nodePair : graph.getNodes())
+    {
+
+        vector<pair<Node<string, Element>, double>> nodeDistances;
+        Node<string, Element> node = nodePair.second;
+
+        for (auto nodePairToCompare : graph.getNodes())
+        {
+            Node<string, Element> node2 = nodePairToCompare.second;
+
+            if (node == node2)
+            {
+                continue;
+            }
+            else
+            {
+                double distance = calculateDistance(node, node2);
+
+                nodeDistances.insert(nodeDistances.end(), make_pair(node2, distance));
+            }
+        }
+
+        // Despues de calcular todas las distancias para un Nodo se ordenan
+        sort(nodeDistances.begin(), nodeDistances.end(),
+             [](const pair<Node<string, Element>, double> &a, const pair<Node<string, Element>, double> &b)
+             {
+                 return a.second < b.second; // Ordenar por la segunda parte del par (la distancia)
+             });
+
+        for (int k = 0; k < amountOfEdges; k++)
+        {
+            graph.addEdge(node.getId(), nodeDistances.at(k).first.getId(), nodeDistances.at(k).second, true);
+        }
+    }
+}
+
+double Shell::calculateDistance(Node<string, Element> n1, Node<string, Element> n2)
+{
+    return sqrt(pow((n2.getData().GetCoordinateX() - n1.getData().GetCoordinateX()), 2) + pow((n2.getData().GetCoordinateY() - n1.getData().GetCoordinateY()), 2));
+}
+
+void Shell::findFarthestRoute()
+{
+    vector<vector<double>> floydWarshall = graph.floydWarshall();
+
+    double max = 0;
+
+    int posI = 0;
+    int posJ = 0;
+
+    // Busca la posicion i y j del valor mas grande
+    for (int i = 0; i < floydWarshall.size(); i++)
+    {
+        for (int j = 0; j < floydWarshall.size(); j++)
+        {
+            if (floydWarshall[i][j] > max && floydWarshall[i][j] != numeric_limits<double>::infinity())
+            {
+                max = floydWarshall[i][j];
+                posI = i;
+                posJ = j;
+            }
+        }
+    }
+
+    // Recorre el mapa de nodos del grafo hasta la poscion de la variable posI
+    Node<string, Element> source;
+    Node<string, Element> destination;
+
+    int i = 0;
+    int j = 0;
+    for (auto nodePair : graph.getNodes())
+    {
+        Node<string, Element> node = nodePair.second;
+
+        if (posI == i)
+        {
+            source = node;
+        }
+        if (posJ == j)
+        {
+            destination = node;
+        }
+        if (source.getId() != "" && destination.getId() != "")
+        {
+            break;
+        }
+
+        i++;
+        j++;
+    }
+
+    // Retorna el camino mas largo
+    auto path = graph.shortestPath(source.getId(), destination.getId());
+
+    cout << "El camino mas largo es: " << endl;
+    for (auto &&node : path)
+    {
+        cout << node;
+    }
+
+    cout << endl;
+
+    cout << "La distancia es: " << max << " m" << endl;
 }

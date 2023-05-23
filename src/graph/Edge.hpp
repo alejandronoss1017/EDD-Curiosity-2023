@@ -66,5 +66,5 @@ public:
     /* Methods */
 };
 
-#include "../../src/graph/Edge.cpp"
+#include "Edge.cpp"
 #endif // DATA_STRUCTURES_GRAPH_EDGE_HPP

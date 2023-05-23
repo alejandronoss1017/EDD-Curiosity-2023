@@ -50,6 +50,8 @@ public:
     /* Operations overload */
 
     friend ostream &operator<<(ostream &os, const Element &element);
+
+    bool operator==(const Element &rhs) const;
 };
 
 #include "Element.cxx"
