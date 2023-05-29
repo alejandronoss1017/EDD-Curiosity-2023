@@ -9,8 +9,6 @@ Se nos plantea el problema de un sistema de aeropuertos y vuelos, en los cuales 
 - [C++ 11](https://en.cppreference.com/w/cpp/11)
 - [CMake](https://cmake.org/) >= 3.22
 
-
-
 # 🪟 Instalacion en Windows
 
 Para la instalacion de [C++ 11](https://en.cppreference.com/w/cpp/11) en windows, recomendamos el compilador de [CGG](https://gcc.gnu.org/) el cual puede ser instalado mendiante [MinGW](https://www.mingw-w64.org/) a traves de [MSYS2](https://www.msys2.org/).
@@ -19,12 +17,14 @@ Se recomienda seguir la guia plateada por [MSYS2](https://www.msys2.org/) para l
 
 Para [CMake](https://cmake.org/) se puede hacer a travez de un gestor de paquete como [Winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/#install-winget) o [Chocolatey](https://chocolatey.org/).
 
-__Chocolatey__
+**Chocolatey**
+
 ```powershell
   choco install cmake
 ```
 
-__Winget__
+**Winget**
+
 ```powershell
   winget install cmake
 ```
@@ -37,32 +37,38 @@ En Linux por defecto ya trae el compilador de [CGG](https://gcc.gnu.org/) por de
 
 Para [CMake](https://cmake.org/) utiliza el gestor de paquetes de la distribucion donde se va a ejecutar el programa.
 
-__Ubuntu/Debian__
+**Ubuntu/Debian**
+
 ```powershell
   sudo apt install cmake
 ```
 
-__Fedora__
+**Fedora**
+
 ```powershell
   sudo rpm install cmake
 ```
 
-__Arch__
+**Arch**
+
 ```powershell
   sudo pacman install cmake
 ```
 
 Tambien se puede obtener los binarios desde la pagina web de Cmake en este [Link](https://cmake.org/download/).
+
 # 🛠️ Compilacion y ejecucion
 
 Entra en la carpeta del proyecto:
 
-__Bash/PowerShell__
+**Bash/PowerShell**
+
 ```bash
   cd EDD-Curiosity-2023
 ```
 
-__cmd__
+**cmd**
+
 ```bash
   dir EDD-Curiosity-2023
 ```
@@ -72,19 +78,22 @@ Compilacion del programa:
 ```bash
   cmake -S . -B ./build -G "Unix Makefiles"
 ```
-El anterior comando generara una carpeta con el nombre "__build__" donde se encontrar varios archivos, entre ellos un "__makefile__" y carpetas de la compilacion a traves de [CMake](https://cmake.org/), necesitaremos entrar a dicha carpeta:
 
-__Bash/PowerShell__
+El anterior comando generara una carpeta con el nombre "**build**" donde se encontrar varios archivos, entre ellos un "**makefile**" y carpetas de la compilacion a traves de [CMake](https://cmake.org/), necesitaremos entrar a dicha carpeta:
+
+**Bash/PowerShell**
+
 ```bash
   cd EDD-Curiosity-2023/build
 ```
 
-__cmd__
+**cmd**
+
 ```bash
   dir EDD-Curiosity-2023/build
 ```
 
-Ahora necesitaremos ejecutar dicho archivo "__makefile__" para ello utilizaremos el siguiente comando estando en la misma carpeta del archivo:
+Ahora necesitaremos ejecutar dicho archivo "**makefile**" para ello utilizaremos el siguiente comando estando en la misma carpeta del archivo:
 
 ```bash
   make
@@ -92,22 +101,31 @@ Ahora necesitaremos ejecutar dicho archivo "__makefile__" para ello utilizaremos
 
 Finalmente se nos generar un archivo ejecutable, este puede variar dependiendo de sistema operativo, en el caso de Windows un archivo `main.exe` mientras que el Linux un archivo binario `main`. Solo nos queda ejecutar el programa con el siguiente comando:
 
-__Bash__
+**Bash**
+
 ```bash
   ./main
 ```
 
-__PowerShell__
+**PowerShell**
+
 ```bash
   ./main.exe
 ```
 
-__cmd__
+**cmd**
+
 ```bash
   start ./main.exe
 ```
 
-  > Al momento de utilizar una ruta de archivo, cabe resaltar que la ruta es relativa al archivo, por ende si se ejecuta desde `./build/main` la ruta de los datos seria `../*.txt`
+> Al momento de utilizar una ruta de archivo, cabe resaltar que la ruta es relativa al archivo, por ende si se ejecuta desde `./build/main` la ruta de los datos seria `../*.txt`
+
+# 🪟 Diagrama de clases
+
+![Diagrama de clases](/images/Diagrama%20EDD%20Curiosity.png)
+
+
 
 ## ✒️ Autores
 
